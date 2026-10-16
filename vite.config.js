@@ -1,5 +1,6 @@
 import { defineConfig } from 'vite';
 import { resolve } from 'path';
+import fs from 'fs';
 
 export default defineConfig({
   root: '.',
@@ -27,6 +28,13 @@ export default defineConfig({
           }
           next();
         });
+      },
+      closeBundle() {
+        const distDesktop = resolve(__dirname, 'dist/screen_desktop.html');
+        const distIndex = resolve(__dirname, 'dist/index.html');
+        if (fs.existsSync(distDesktop)) {
+          fs.copyFileSync(distDesktop, distIndex);
+        }
       },
     },
   ],
